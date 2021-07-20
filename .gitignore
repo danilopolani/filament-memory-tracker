@@ -1,0 +1,8 @@
+docs/
+build/
+vendor/
+coverage/
+node_modules/
+resources/dist/app.js.LICENSE.txt
+resources/dist/mix-manifest.json
+composer.lock

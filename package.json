@@ -1,0 +1,26 @@
+{
+    "name": "filament-memory-tracker",
+    "version": "1.0.0",
+    "description": "Track the memory usage of your workers and display them in Filament",
+    "main": "index.js",
+    "keywords": [
+        "danilopolani",
+        "filament",
+        "filament-admin",
+        "filament-memory-tracker"
+    ],
+    "author": "Danilo Polani",
+    "devDependencies": {
+        "laravel-mix": "^6.0.25",
+        "postcss": "^8.3.5",
+        "resolve-url-loader": "^4.0.0",
+        "sass": "^1.35.2",
+        "sass-loader": "^12.1.0"
+    },
+    "scripts": {
+        "build": "npx mix --production"
+    },
+    "dependencies": {
+        "chart.js": "^3.4.1"
+    }
+}
