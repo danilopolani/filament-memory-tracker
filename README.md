@@ -1,7 +1,7 @@
 # Filament Memory Tracker
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/danilopolani/filament-memory-tracker.svg?style=flat-square)](https://packagist.org/packages/danilopolani/filament-memory-tracker)
-[![Total Downloads](https://img.shields.io/packagist/dt/danilopolani/filament-memory-tracker.svg?style=flat-square)](https://packagist.org/packages/danilopolani/filament-memory-tracker)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/danilopolani/filament-memory-tracker.svg)](https://packagist.org/packages/danilopolani/filament-memory-tracker)
+![Packagist Downloads](https://img.shields.io/packagist/dm/danilopolani/filament-memory-tracker?logoColor=green)
 
 Track the memory usage of your workers and display them in Filament.
 
@@ -11,7 +11,7 @@ Track the memory usage of your workers and display them in Filament.
 
 You can install the package via composer:
 
-```shell
+```basgh
 composer require danilopolani/filament-memory-tracker
 ```
 
@@ -33,11 +33,11 @@ php artisan vendor:publish --tag=filament-memory-tracker-assets --force
 
 There are a few notable configuration options for the package.
 
-**`cache_store`**
+- **`cache_store`**
 
 Define the cache store used to track memory usage. By default it will be your `CACHE_DRIVER` env value.  
 
-**`trackers`**
+- **`trackers`**
 
 A list of trackers names to be displayed in the dashboard. They must be the same used in your `MemoryTracker()` instance. See **Usage** below to discover more.
 
@@ -148,9 +148,10 @@ class AppServiceProvider extends ServiceProvider
 
 ### Additional notes
 
-By default the widget will be shown full-width if there's more than 1 tracker; otherwise, the widget will be a single block:
+- The widget will refresh every 5s automatically;
+- By default the widget will be shown full-width if there's more than 1 tracker; otherwise, the widget will be a single block:
 
-![Memory Tracker widget single block](https://i.imgur.com/0zdoMb2.png)
+<img src="https://i.imgur.com/0zdoMb2.png" alt="Memory Tracker widget single block" width="50%">
 
 ## Contributing
 
