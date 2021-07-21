@@ -60,7 +60,7 @@ class MemoryTracker
     }
 
     /**
-     * Track memory usage of the worker in the last restart.
+     * Track memory usage of the worker in the latest restart.
      *
      * @return void
      */
@@ -89,6 +89,16 @@ class MemoryTracker
         }
 
         return $result;
+    }
+
+    /**
+     * Get data about the latest restart.
+     *
+     * @return array|null
+     */
+    public function getLatestRestart(): ?array
+    {
+        return $this->cache->get($this->memoryTrackerRestartKey);
     }
 
     /**

@@ -35,6 +35,7 @@ class MemoryTrackerWidget extends Widget
             $charts[] = [
                 'name' => $trackerName,
                 'key' => Str::slug($trackerName),
+                'latestRestart' => (new MemoryTracker($trackerName))->getLatestRestart(),
                 'timeseries' => [
                     'labels' => $labels,
                     'data' => $data,
