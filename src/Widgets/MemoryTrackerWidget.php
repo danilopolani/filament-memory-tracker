@@ -18,7 +18,9 @@ class MemoryTrackerWidget extends Widget
         $charts = [];
 
         foreach (Config::get('filament-memory-tracker.trackers', []) as $trackerName) {
-            $history = (new MemoryTracker($trackerName))->getHistory();
+            $memoryTracker = new MemoryTracker($trackerName);
+
+            $history = $memoryTracker->getHistory();
 
             // X axis
             $labels = array_map(
@@ -35,7 +37,8 @@ class MemoryTrackerWidget extends Widget
             $charts[] = [
                 'name' => $trackerName,
                 'key' => Str::slug($trackerName),
-                'latestRestart' => (new MemoryTracker($trackerName))->getLatestRestart(),
+                'latestRestart' => $memoryTracker->getLatestRestart(),
+                'peak' => $memoryTracker->getPeak(),
                 'timeseries' => [
                     'labels' => $labels,
                     'data' => $data,

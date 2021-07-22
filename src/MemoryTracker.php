@@ -11,9 +11,15 @@ use Illuminate\Support\Str;
 class MemoryTracker
 {
     protected CacheContract $cache;
+
     protected string $memoryTrackerKey;
+
+    protected string $memoryTrackerPeakKey;
+
     protected string $memoryTrackerRestartKey;
+
     protected int $historyMaxSize;
+
     protected bool $realUsage;
 
     /**
@@ -28,6 +34,7 @@ class MemoryTracker
     {
         $this->cache = Cache::store(Config::get('filament-worker-memory-tracker.cache_store'));
         $this->memoryTrackerKey = 'memory_tracker:' . Str::slug($trackerName);
+        $this->memoryTrackerPeakKey = 'memory_tracker_peak:' . Str::slug($trackerName);
         $this->memoryTrackerRestartKey = 'memory_tracker_restart:' . Str::slug($trackerName);
         $this->historyMaxSize = $historyMaxSize;
         $this->realUsage = $realUsage;
@@ -45,9 +52,12 @@ class MemoryTracker
             $currentlyTracked = [];
         }
 
+        $currentMemory = memory_get_usage($this->realUsage);
+        $today = Carbon::now()->toDateTimeString();
+
         $currentlyTracked[] = [
             'date' => Carbon::now()->toDateTimeString(),
-            'value' => memory_get_usage($this->realUsage),
+            'value' => $currentMemory,
         ];
 
         $this->cache->set(
@@ -56,16 +66,34 @@ class MemoryTracker
             array_slice($currentlyTracked, $this->historyMaxSize * -1, $this->historyMaxSize)
         );
 
+        // Set or update the memory peak
+        $currentPeak = $this->cache->get($this->memoryTrackerPeakKey);
+
+        if (is_null($currentPeak) || $currentMemory > $currentPeak['value']) {
+            $this->cache->set($this->memoryTrackerPeakKey, [
+                'date' => $today,
+                'value' => $currentMemory,
+            ]);
+        }
+
         unset($currentlyTracked);
+        unset($currentMemory);
+        unset($today);
+        unset($currentPeak);
     }
 
     /**
      * Track memory usage of the worker in the latest restart.
      *
+     * @param  bool $resetPeak
      * @return void
      */
-    public function trackRestart(): void
+    public function trackRestart(bool $resetPeak = true): void
     {
+        if ($resetPeak) {
+            $this->purgePeak();
+        }
+
         $this->cache->forever(
             $this->memoryTrackerRestartKey,
             [
@@ -89,6 +117,25 @@ class MemoryTracker
         }
 
         return $result;
+    }
+
+    /**
+     * Get peak of memory usage.
+     *
+     * @return array
+     */
+    public function getPeak(): ?array
+    {
+        if (!$peak = $this->cache->get($this->memoryTrackerPeakKey)) {
+            return null;
+        }
+
+        return [
+            'date' =>  (new Carbon($peak['date']))->format(
+                Config::get('filament-worker-memory-tracker.date_format', 'j F Y @ H:i:s')
+            ),
+            'value' => number_format($peak['value'] / 1024 / 1024, 3),
+        ];
     }
 
     /**
@@ -118,6 +165,7 @@ class MemoryTracker
     public function purge(): void
     {
         $this->purgeHistory();
+        $this->purgePeak();
         $this->purgeRestart();
     }
 
@@ -129,6 +177,16 @@ class MemoryTracker
     public function purgeHistory(): void
     {
         $this->cache->forget($this->memoryTrackerKey);
+    }
+
+    /**
+     * Purge the tracker peak.
+     *
+     * @return void
+     */
+    public function purgePeak(): void
+    {
+        $this->cache->forget($this->memoryTrackerPeakKey);
     }
 
     /**
