@@ -1,6 +1,6 @@
 <?php
 
-namespace Danilopolani\FilamentMemoryTracker;
+namespace Danilopolani\FilamentMemoryTracker\Concerns;
 
 use Danilopolani\FilamentMemoryTracker\MemoryTracker;
 
@@ -20,7 +20,11 @@ trait TracksRestart
 
         pcntl_async_signals(true);
 
-        $quitCallback = fn () => $tracker->trackRestart();
+        $quitCallback = function (int $sigNo) use ($tracker) {
+            $tracker->trackRestart();
+
+            exit($sigNo);
+        };
 
         pcntl_signal(SIGTERM, $quitCallback);
         pcntl_signal(SIGQUIT, $quitCallback);

@@ -98,7 +98,16 @@ class MemoryTracker
      */
     public function getLatestRestart(): ?array
     {
-        return $this->cache->get($this->memoryTrackerRestartKey);
+        if (!$latestRestart = $this->cache->get($this->memoryTrackerRestartKey)) {
+            return null;
+        }
+
+        return [
+            'date' =>  (new Carbon($latestRestart['date']))->format(
+                Config::get('filament-worker-memory-tracker.date_format', 'j F Y @ H:i:s')
+            ),
+            'value' => number_format($latestRestart['value'] / 1024 / 1024, 3),
+        ];
     }
 
     /**
