@@ -85,11 +85,14 @@ class MemoryTracker
     /**
      * Track memory usage of the worker in the latest restart.
      *
+     * @param  bool $resetPeak
      * @return void
      */
-    public function trackRestart(): void
+    public function trackRestart(bool $resetPeak = true): void
     {
-        $this->purgePeak();
+        if ($resetPeak) {
+            $this->purgePeak();
+        }
 
         $this->cache->forever(
             $this->memoryTrackerRestartKey,
