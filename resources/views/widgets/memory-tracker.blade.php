@@ -18,6 +18,12 @@
                     </p>
                 @endif
 
+                @if ($chart['peak'])
+                    <p class="memory-tracker--mb-2 memory-tracker--text-sm">
+                        <strong>📈 Memory Peak</strong>: {{ $chart['peak']['date'] }} (<strong>{{ $chart['peak']['value'] }} MB</strong>)
+                    </p>
+                @endif
+
                 <div wire:ignore>
                     <canvas id="memory-tracker-chart-{{ $chart['key'] }}" class="memory-tracker-chart" width="100%" height="250"></canvas>
                 </div>
