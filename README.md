@@ -11,13 +11,13 @@ Track the memory usage of your workers and display them in Filament.
 
 Install the package via composer:
 
-```basgh
+```bash
 composer require danilopolani/filament-memory-tracker
 ```
 
 Then publish the config of the package and the assets as well:
 
-```shell
+```bash
 php artisan vendor:publish --tag=filament-memory-tracker-config
 php artisan vendor:publish --tag=filament-memory-tracker-assets
 ```
@@ -25,7 +25,7 @@ php artisan vendor:publish --tag=filament-memory-tracker-assets
 ### Upgrade
 When upgrading, you should republish the assets:
 
-```shell
+```bash
 php artisan vendor:publish --tag=filament-memory-tracker-assets --force
 ```
 
@@ -41,7 +41,11 @@ Key | Type | Description
 
 ## Usage
 
-In your Worker create a new `MemoryTracker` instance and then ping the `track()` method every time you want. An example with [ReactPHP Event Loop](https://reactphp.org/event-loop/):
+In your Worker create a new `MemoryTracker` instance and then ping the `track()` method every time you want. There's an example with [ReactPHP Event Loop](https://reactphp.org/event-loop/).
+
+
+ℹ️ | The `$realUsage` flag is the same as [memory_get_usage()](https://www.php.net/manual/en/function.memory-get-usage.php).
+:---: | :---
 
 ```php
 <?php
@@ -85,7 +89,8 @@ class MyWorker extends Command
      */
     public function handle()
     {
-        Loop::addPeriodicTimer(5, function () {
+        // Ping every 5minutes
+        Loop::addPeriodicTimer(60 * 5, function () {
             $this->memoryTracker->track(bool $realUsage = false);
         });
 
@@ -109,8 +114,6 @@ return [
 ];
 ```
 
-> **Note**: the `$realUsage` flag is the same as [memory_get_usage()](https://www.php.net/manual/en/function.memory-get-usage.php)
-
 ### Track restarts
 
 You can track the latest Worker restart date and memory usage as well! If you're working on a custom Worker, you should intercept the exit signals and then call the `$memoryTracker->trackRestart()` method. Otherwise you can use the Trait provided by the package to achieve that:
@@ -118,7 +121,8 @@ You can track the latest Worker restart date and memory usage as well! If you're
 1. Include `Danilopolani\FilamentMemoryTracker\Concerns\TracksRestart` inside your class;
 2. Call `$this->trackRestartMemory(MemoryTracker $memoryTrackerInstance)` inside your constructor.
 
-> **Note**: The `TracksRestart` requires the extension **`pcntl`** to be enabled.
+⚠️ | The `TracksRestart` requires the extension **`pcntl`** to be enabled.
+:---: | :---
 
 ```php
 <?php
