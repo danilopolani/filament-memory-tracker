@@ -154,7 +154,7 @@ class MyWorker extends Command
 
 ### Laravel Queue
 
-You can track [Laravel Queue](laravel.com/docs/8.x/queues) too by listening some specific events in a provider, for example your `AppServiceProvider`.
+You can track [Laravel Queue](laravel.com/docs/8.x/queues) too by listening to some specific events in a provider, for example your `AppServiceProvider`.
 
 ```php
 <?php
@@ -208,8 +208,8 @@ Key | Description
 `track(): void` | Track the current memory usage for the worker.
 `trackRestart(bool $resetPeak = true): void` | Track a restart. If `$resetPeak` is true, the memory peak will be purged as well.
 `getHistory(): array` | Get the worker's history of memory usage.
-`getPeak(): array|null` | Get the worker's memory peak. Returns `null` if no peak found.
-`getLatestRestart(): array|null` | Get the worker's latest restart data. Returns `null` if no restart found.
+`getPeak(): array\|null` | Get the worker's memory peak. Returns `null` if no peak found.
+`getLatestRestart(): array\|null` | Get the worker's latest restart data. Returns `null` if no restart found.
 `purge(): void` | Purge all the data of the current worker.
 `purgeHistory(): void` | Purge the track history only of the current worker.
 `purgePeak(): void` | Purge the memory peak of the current worker.
