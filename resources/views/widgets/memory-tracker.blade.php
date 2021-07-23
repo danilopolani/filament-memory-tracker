@@ -14,7 +14,7 @@
 
                 @if ($chart['latestRestart'])
                     <p class="memory-tracker--mb-2 memory-tracker--text-sm">
-                        <strong>🔄 Latest restart</strong>: {{ $chart['latestRestart']['date'] }} (<strong>{{ $chart['latestRestart']['value'] }} MB</strong>)
+                        <strong>🔄 Latest Restart</strong>: {{ $chart['latestRestart']['date'] }} (<strong>{{ $chart['latestRestart']['value'] }} MB</strong>)
                     </p>
                 @endif
 
