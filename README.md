@@ -1,7 +1,7 @@
 # Filament Memory Tracker
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/danilopolani/filament-memory-tracker.svg)](https://packagist.org/packages/danilopolani/filament-memory-tracker)
-![Packagist Downloads](https://img.shields.io/packagist/dm/danilopolani/filament-memory-tracker?logoColor=green)
+[![Latest Stable Version](http://poser.pugx.org/danilopolani/filament-memory-tracker/v)](https://packagist.org/packages/danilopolani/filament-memory-tracker)
+[![Total Downloads](http://poser.pugx.org/danilopolani/filament-memory-tracker/downloads)](https://packagist.org/packages/danilopolani/filament-memory-tracker)
 
 Track the memory usage of your workers and display them in Filament.
 
@@ -118,6 +118,7 @@ You can track the latest Worker restart date and memory usage as well! If you're
 1. Include `Danilopolani\FilamentMemoryTracker\Concerns\TracksRestart` inside your class;
 2. Call `$this->trackRestartMemory(MemoryTracker $memoryTrackerInstance)` inside your constructor.
 
+> **Note**: The `TracksRestart` requires the extension **`pcntl`** to be enabled.
 
 ```php
 <?php
