@@ -1,6 +1,6 @@
 <?php
 
-namespace Danilopolani\FilamentMemoryTracker;
+namespace DaniloPolani\FilamentMemoryTracker;
 
 use Illuminate\Contracts\Cache\Repository as CacheContract;
 use Illuminate\Support\Carbon;
@@ -32,7 +32,7 @@ class MemoryTracker
      */
     public function __construct(string $trackerName = 'default', int $historyMaxSize = 100, bool $realUsage = false)
     {
-        $this->cache = Cache::store(Config::get('filament-worker-memory-tracker.cache_store'));
+        $this->cache = Cache::store(Config::get('filament-memory-tracker.cache_store'));
         $this->memoryTrackerKey = 'memory_tracker:' . Str::slug($trackerName);
         $this->memoryTrackerPeakKey = 'memory_tracker_peak:' . Str::slug($trackerName);
         $this->memoryTrackerRestartKey = 'memory_tracker_restart:' . Str::slug($trackerName);
@@ -132,7 +132,7 @@ class MemoryTracker
 
         return [
             'date' =>  (new Carbon($peak['date']))->format(
-                Config::get('filament-worker-memory-tracker.date_format', 'j F Y @ H:i:s')
+                Config::get('filament-memory-tracker.date_format', 'j F Y @ H:i:s')
             ),
             'value' => number_format($peak['value'] / 1024 / 1024, 3),
         ];
@@ -151,7 +151,7 @@ class MemoryTracker
 
         return [
             'date' =>  (new Carbon($latestRestart['date']))->format(
-                Config::get('filament-worker-memory-tracker.date_format', 'j F Y @ H:i:s')
+                Config::get('filament-memory-tracker.date_format', 'j F Y @ H:i:s')
             ),
             'value' => number_format($latestRestart['value'] / 1024 / 1024, 3),
         ];

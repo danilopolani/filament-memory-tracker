@@ -7,6 +7,8 @@ Track the memory usage of your workers and display them in Filament.
 
 <p align="center"><img src="https://i.imgur.com/Y5gnWfl.png" alt="Filament Worker Memory widget preview"></p>
 
+> If you're using Filament v1, please navigate the [1.x branch](https://github.com/danilopolani/filament-memory-tracker/tree/1.x).
+
 ## Installation
 
 Install the package via composer:
@@ -15,12 +17,14 @@ Install the package via composer:
 composer require danilopolani/filament-memory-tracker
 ```
 
-Then publish the config of the package and the assets as well:
+Then publish the assets and the config of the package:
 
 ```bash
-php artisan vendor:publish --tag=filament-memory-tracker-config
 php artisan vendor:publish --tag=filament-memory-tracker-assets
+php artisan vendor:publish --tag=filament-memory-tracker-config
 ```
+
+> If you're upgrading from v1 to v2 please note that the namespace changed from `\DaniloPolani\`  to `\DaniloPolani\`.
 
 ### Upgrade
 When upgrading, you should republish the assets:
@@ -52,7 +56,7 @@ In your Worker create a new `MemoryTracker` instance and then ping the `track()`
 
 namespace App\Console\Commands;
 
-use Danilopolani\FilamentMemoryTracker\MemoryTracker;
+use DaniloPolani\FilamentMemoryTracker\MemoryTracker;
 use Illuminate\Console\Command;
 use React\EventLoop\Loop;
 
@@ -118,7 +122,7 @@ return [
 
 You can track the latest Worker restart date and memory usage as well! If you're working on a custom Worker, you should intercept the exit signals and then call the `$memoryTracker->trackRestart()` method. Otherwise you can use the Trait provided by the package to achieve that:
 
-1. Include `Danilopolani\FilamentMemoryTracker\Concerns\TracksRestart` inside your class;
+1. Include `DaniloPolani\FilamentMemoryTracker\Concerns\TracksRestart` inside your class;
 2. Call `$this->trackRestartMemory(MemoryTracker $memoryTrackerInstance)` inside your constructor.
 
 ⚠️ | The `TracksRestart` requires the extension **`pcntl`** to be enabled.
@@ -129,8 +133,8 @@ You can track the latest Worker restart date and memory usage as well! If you're
 
 namespace App\Console\Commands;
 
-use Danilopolani\FilamentMemoryTracker\MemoryTracker;
-use Danilopolani\FilamentMemoryTracker\Concerns\TracksRestart;
+use DaniloPolani\FilamentMemoryTracker\MemoryTracker;
+use DaniloPolani\FilamentMemoryTracker\Concerns\TracksRestart;
 use Illuminate\Console\Command;
 use React\EventLoop\Loop;
 
@@ -161,7 +165,7 @@ You can track [Laravel Queue](laravel.com/docs/8.x/queues) too by listening to s
 
 namespace App\Providers;
 
-use Danilopolani\FilamentMemoryTracker\MemoryTracker;
+use DaniloPolani\FilamentMemoryTracker\MemoryTracker;
 use Filament\Filament;
 use Illuminate\Queue\Events\Looping;
 use Illuminate\Queue\Events\WorkerStopping;

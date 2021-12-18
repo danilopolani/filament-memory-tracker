@@ -1,8 +1,8 @@
 <?php
 
-namespace Danilopolani\FilamentMemoryTracker\Concerns;
+namespace DaniloPolani\FilamentMemoryTracker\Concerns;
 
-use Danilopolani\FilamentMemoryTracker\MemoryTracker;
+use DaniloPolani\FilamentMemoryTracker\MemoryTracker;
 
 trait TracksRestart
 {

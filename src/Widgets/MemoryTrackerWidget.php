@@ -1,9 +1,10 @@
 <?php
 
-namespace Danilopolani\FilamentMemoryTracker\Widgets;
+namespace DaniloPolani\FilamentMemoryTracker\Widgets;
 
-use Danilopolani\FilamentMemoryTracker\MemoryTracker;
+use DaniloPolani\FilamentMemoryTracker\MemoryTracker;
 use Filament\Widgets\Widget;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
@@ -11,9 +12,9 @@ use Illuminate\Support\Str;
 
 class MemoryTrackerWidget extends Widget
 {
-    public static $view = 'filament-memory-tracker::widgets.memory-tracker';
+    protected static string $view = 'filament-memory-tracker::widgets.memory-tracker';
 
-    public function render()
+    public function render(): View
     {
         $charts = [];
 
