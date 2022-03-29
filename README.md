@@ -27,7 +27,7 @@ php artisan vendor:publish --tag=filament-memory-tracker-config
 > If you're upgrading from v1 to v2 please note that the namespace changed from `\DaniloPolani\`  to `\DaniloPolani\`.
 
 ### Upgrade
-When upgrading, you should republish the assets:
+When upgrading be sure to republish the assets:
 
 ```bash
 php artisan vendor:publish --tag=filament-memory-tracker-assets --force
