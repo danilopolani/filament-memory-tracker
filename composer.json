@@ -20,8 +20,8 @@
     "require": {
         "php": "^8.0",
         "filament/filament": "^2.5",
-        "illuminate/support": "^8.0|^9.0",
-        "illuminate/contracts": "^8.0|^9.0",
+        "illuminate/support": "^8.0|^9.0|^10.0",
+        "illuminate/contracts": "^8.0|^9.0|^10.0",
         "livewire/livewire": "^2.6"
     },
     "require-dev": {
